@@ -1,0 +1,48 @@
+package tests;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import pageobjects.SupportOrderPage;
+import util.TestRunner;
+
+import static asserts.WebElementAsserts.assertThat;
+import static pageobjects.SupportOrderPage.ORDER;
+
+public class CreateOrderTest extends TestRunner {
+
+    @BeforeMethod
+    public final void initialisePageObjects() {
+
+        homePage
+                .openLogInPage()
+                .setEmailToAddAddress()
+                .setPassword()
+                .doLogIn()
+                .openHomePage();
+    }
+
+    @Test
+    public final void testAddUserAddress() {
+
+        homePage
+                .openSwarovskiElementsPage()
+                .chooseItem()
+                .startCreateOrder()
+                .submitChosenItem()
+                .submitAddress()
+                .submitDelivery()
+                .choosePayment();
+
+        assertThat(ORDER).isCreated();
+    }
+
+    @AfterMethod
+    public final void emptyBasket() {
+
+        supportOrderPage = new SupportOrderPage();
+
+        supportOrderPage
+                .makeBasketEmpty();
+    }
+}
