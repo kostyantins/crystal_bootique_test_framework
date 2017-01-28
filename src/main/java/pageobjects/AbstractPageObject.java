@@ -1,40 +1,46 @@
 package pageobjects;
 
 import lombok.Getter;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.PageFactory;
+import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementDecorator;
+import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementLocatorFactory;
 
-import static pageobjects.UserAccountPage.LOG_OUT_LINK;
 import static util.Wait.getClickableElement;
-import static util.Wait.getPresentElement;
 import static util.WebDriverFactory.getDriver;
 
 @Getter
 public abstract class AbstractPageObject {
 
-    public final AbstractPageObject clickTo(final By element) {
+    public AbstractPageObject() {
+
+        PageFactory.initElements(new HtmlElementDecorator(new HtmlElementLocatorFactory(getDriver())), this);
+    }
+
+    public final AbstractPageObject clickTo(final WebElement element) {
 
         findElementToClick(element).click();
 
         return this;
     }
 
-    public final AbstractPageObject fillInputAs(final By input, final String textToInput) {
+    public final AbstractPageObject fillInputAs(final WebElement input, final String textToInput) {
 
         findElement(input).sendKeys(textToInput);
 
         return this;
     }
 
-    public final WebElement findElementToClick(By pageElement) {
+    public final WebElement findElementToClick(final WebElement pageElement) {
 
         return getClickableElement(pageElement);
     }
 
-    public final WebElement findElement(By pageElement) {
+    public final WebElement findElement(final WebElement pageElement) {
 
-        return getPresentElement(pageElement);
+//TODO need a risen as for waits which accept "By" type
+        return pageElement;    // getPresentElement(pageElement);
     }
 
     public final AbstractPageObject acceptAlert() {
@@ -66,7 +72,7 @@ public abstract class AbstractPageObject {
         return this;
     }
 
-    public final void moveToElement(final By elementToMove) {
+    public final void moveToElement(final WebElement elementToMove) {
 
         final Actions actions = new Actions(getDriver());
 
@@ -77,7 +83,9 @@ public abstract class AbstractPageObject {
 
     public final LogInPage doLogOut() {
 
-        clickTo(LOG_OUT_LINK);
+        final UserAccountPage userAccountPage = new UserAccountPage();
+
+        clickTo(userAccountPage.getLogOutLink());
 
         return new LogInPage();
     }

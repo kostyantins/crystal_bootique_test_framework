@@ -1,18 +1,24 @@
 package pageobjects;
 
 import lombok.Getter;
-import org.openqa.selenium.By;
+import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.allure.annotations.Step;
+import ru.yandex.qatools.htmlelements.annotations.Name;
+import ru.yandex.qatools.htmlelements.annotations.Timeout;
+import ru.yandex.qatools.htmlelements.element.Button;
 
 @Getter
 public class DeliveryPage extends AbstractPageObject {
 
-    private static final By MAKE_ORDER_LINK = By.xpath("//*[@id='form']//button");
+    @Name("Make order link")
+    @FindBy(xpath = "//*[@id='form']//button")
+    @Timeout(30)
+    private Button makeOrderButton;
 
     @Step
     public final PaymentPage submitDelivery() {
 
-        clickTo(MAKE_ORDER_LINK);
+        clickTo(makeOrderButton);
 
         return new PaymentPage();
     }

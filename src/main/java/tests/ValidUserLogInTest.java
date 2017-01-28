@@ -1,14 +1,20 @@
 package tests;
 
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pageobjects.UserAccountPage;
 import util.TestRunner;
 
 import static asserts.WebElementAsserts.assertThat;
-import static pageobjects.UserAccountPage.USER;
 
 public class ValidUserLogInTest extends TestRunner {
+
+    @BeforeMethod
+    public void initialisedPageObject(){
+
+        userAccountPage = new UserAccountPage();
+    }
 
     @Test
     public final void testValidUserLogIn() {
@@ -19,13 +25,11 @@ public class ValidUserLogInTest extends TestRunner {
                 .setPassword()
                 .doLogIn();
 
-        assertThat(USER).isLogInAs("Vasiliy Pupkin");
+        assertThat(userAccountPage.getUser()).isLogInAs("Vasiliy Pupkin");
     }
 
     @AfterMethod
     public final void logOut() {
-
-        userAccountPage = new UserAccountPage();
 
         userAccountPage
                 .doLogOut();

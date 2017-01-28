@@ -1,21 +1,18 @@
 package asserts;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import ru.yandex.qatools.allure.annotations.Step;
 
-import static util.Wait.getPresentElement;
-
 public class WebElementAsserts {
 
-    private By actual;
+    private WebElement actual;
 
-    private WebElementAsserts(final By actual) {
+    private WebElementAsserts(final WebElement actual) {
         this.actual = actual;
     }
 
-    public static final WebElementAsserts assertThat(final By actual) {
+    public static final WebElementAsserts assertThat(final WebElement actual) {
 
         return new WebElementAsserts(actual);
     }
@@ -34,9 +31,9 @@ public class WebElementAsserts {
 
         isNotNull();
 
-        final WebElement webElement = getPresentElement(actual);
+//        final WebElement webElement = getPresentElement(actual);
 
-        if (!webElement.isDisplayed()) {
+        if (!actual.isDisplayed()) {
 
             Assert.fail("Element {" + actual + "} should be displayed !");
         }
@@ -48,9 +45,9 @@ public class WebElementAsserts {
 
         isNotNull();
 
-        final WebElement webElement = getPresentElement(actual);
+//        final WebElement webElement = getPresentElement(actual);
 
-        if (!webElement
+        if (!actual
                 .getText()
                 .contains(elementsText)) {
 
@@ -65,9 +62,9 @@ public class WebElementAsserts {
 
         isNotNull();
 
-        final WebElement webElement = getPresentElement(actual);
+//        final WebElement webElement = getPresentElement(actual);
 
-        if (!webElement
+        if (!actual
                 .getText()
                 .equalsIgnoreCase(elementsText)) {
 
@@ -82,9 +79,9 @@ public class WebElementAsserts {
 
         isNotNull();
 
-        final WebElement webElement = getPresentElement(actual);
+//        final WebElement webElement = getPresentElement(actual);
 
-        if (!webElement
+        if (!actual
                 .getText()
                 .equalsIgnoreCase(userName)) {
 
@@ -99,9 +96,9 @@ public class WebElementAsserts {
 
         isNotNull();
 
-        final WebElement webElement = getPresentElement(actual);
+//        final WebElement webElement = getPresentElement(actual);
 
-        if (!webElement
+        if (!actual
                 .getText()
                 .equalsIgnoreCase(userName)) {
 
@@ -116,9 +113,9 @@ public class WebElementAsserts {
 
         isNotNull();
 
-        final WebElement webElement = getPresentElement(actual);
+//        final WebElement webElement = getPresentElement(actual);
 
-        if (!webElement.isDisplayed()) {
+        if (!actual.isDisplayed()) {
 
             Assert.fail("User {" + actual + "} shouldn't be Log In !");
         }
@@ -130,9 +127,9 @@ public class WebElementAsserts {
 
         isNotNull();
 
-        final WebElement webElement = getPresentElement(actual);
+//        final WebElement webElement = getPresentElement(actual);
 
-        if (!webElement.isDisplayed()) {
+        if (!actual.isDisplayed()) {
 
             Assert.fail("Element {" + actual + "} should be displayed !");
         }

@@ -1,21 +1,41 @@
 package pageobjects;
 
 import lombok.Getter;
-import org.openqa.selenium.By;
+import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.allure.annotations.Step;
+import ru.yandex.qatools.htmlelements.annotations.Name;
+import ru.yandex.qatools.htmlelements.annotations.Timeout;
+import ru.yandex.qatools.htmlelements.element.Button;
+import ru.yandex.qatools.htmlelements.element.HtmlElement;
+import ru.yandex.qatools.htmlelements.element.Link;
 
 @Getter
 public class UserAddressesPage extends AbstractPageObject {
 
-    private static final By ADD_ADDRESS_LINK = By.xpath("//*[@id='center_column']/div/a");
-    public static final By USER_ADDRESS = By.xpath("(//*[@id='center_column']//ul//span)[5]");
-    private static final By MAKE_ORDER_LINK = By.xpath("//*[@id='center_column']//button");
-    private static final By DELETE_ADDRESS_LINK = By.xpath("//*[@id='center_column']//ul/li[11]/a[2]/span/i");
+    @Name("Add address link")
+    @FindBy(xpath = "//*[@id='center_column']/div/a")
+    @Timeout(30)
+    private Link addAddressLink;
+
+    @Name("User address element")
+    @FindBy(xpath = "(//*[@id='center_column']//ul//span)[5]")
+    @Timeout(30)
+    private HtmlElement userAddress;
+
+    @Name("Make order button")
+    @FindBy(xpath = "//*[@id='center_column']//button")
+    @Timeout(30)
+    private Button makeAddressButton;
+
+    @Name("Delete address link")
+    @FindBy(xpath = "//*[@id='center_column']//ul/li[11]/a[2]/span/i")
+    @Timeout(30)
+    private Link deleteAddressLink;
 
     @Step
     public final UserAddressPage startAddAddress() {
 
-        clickTo(ADD_ADDRESS_LINK);
+        clickTo(addAddressLink);
 
         return new UserAddressPage();
     }
@@ -23,7 +43,7 @@ public class UserAddressesPage extends AbstractPageObject {
     @Step
     public final DeliveryPage submitAddress() {
 
-        clickTo(MAKE_ORDER_LINK);
+        clickTo(makeAddressButton);
 
         return new DeliveryPage();
     }
@@ -31,7 +51,7 @@ public class UserAddressesPage extends AbstractPageObject {
     @Step
     public final DeliveryPage deleteAddress() {
 
-        clickTo(DELETE_ADDRESS_LINK);
+        clickTo(deleteAddressLink);
         acceptAlert();
 
         return new DeliveryPage();

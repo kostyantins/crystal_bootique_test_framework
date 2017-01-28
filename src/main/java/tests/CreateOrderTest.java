@@ -7,12 +7,13 @@ import pageobjects.SupportOrderPage;
 import util.TestRunner;
 
 import static asserts.WebElementAsserts.assertThat;
-import static pageobjects.SupportOrderPage.ORDER;
 
 public class CreateOrderTest extends TestRunner {
 
     @BeforeMethod
     public final void initialisePageObjects() {
+
+        supportOrderPage = new SupportOrderPage();
 
         homePage
                 .openLogInPage()
@@ -34,13 +35,11 @@ public class CreateOrderTest extends TestRunner {
                 .submitDelivery()
                 .choosePayment();
 
-        assertThat(ORDER).isCreated();
+        assertThat(supportOrderPage.getOrder()).isCreated();
     }
 
     @AfterMethod
     public final void emptyBasket() {
-
-        supportOrderPage = new SupportOrderPage();
 
         supportOrderPage
                 .makeBasketEmpty();

@@ -1,18 +1,24 @@
 package pageobjects;
 
 import lombok.Getter;
-import org.openqa.selenium.By;
+import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.allure.annotations.Step;
+import ru.yandex.qatools.htmlelements.annotations.Name;
+import ru.yandex.qatools.htmlelements.annotations.Timeout;
+import ru.yandex.qatools.htmlelements.element.Link;
 
 @Getter
 public class BasketStatePage extends AbstractPageObject {
 
-    private static final By MAKE_ORDER_LINK = By.xpath(".//*[@id='center_column']/p[2]/a[1]");
+    @Name("Make order link")
+    @FindBy(xpath = "//*[@id='center_column']/p[2]/a[1]")
+    @Timeout(30)
+    private Link makeOrderLink;
 
     @Step
     public UserAddressesPage submitChosenItem() {
 
-        clickTo(MAKE_ORDER_LINK);
+        clickTo(makeOrderLink);
 
         return new UserAddressesPage();
     }

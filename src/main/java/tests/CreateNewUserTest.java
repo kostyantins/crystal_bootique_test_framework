@@ -4,7 +4,6 @@ import org.testng.annotations.Test;
 import util.TestRunner;
 
 import static asserts.WebElementAsserts.assertThat;
-import static pageobjects.UserAccountPage.USER;
 
 public class CreateNewUserTest extends TestRunner {
 
@@ -24,7 +23,7 @@ public class CreateNewUserTest extends TestRunner {
                 .setBirthdayYear()
                 .createUser();
 
-        assertThat(USER).isCreatedAs("Vasiliy Pupkin");
+        assertThat(userAccountPage.getUser()).isCreatedAs("Vasiliy Pupkin");
     }
 }
 

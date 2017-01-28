@@ -1,21 +1,17 @@
 package pageobjects;
 
 import lombok.Getter;
-import org.openqa.selenium.By;
+import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.allure.annotations.Step;
+import ru.yandex.qatools.htmlelements.annotations.Name;
+import ru.yandex.qatools.htmlelements.annotations.Timeout;
+import ru.yandex.qatools.htmlelements.element.Button;
+import ru.yandex.qatools.htmlelements.element.CheckBox;
+import ru.yandex.qatools.htmlelements.element.TextInput;
 import util.PropertiesReader;
 
 @Getter
 public class CreateNewUserPage extends AbstractPageObject {
-
-    private static final By MR_RADIOBUTTON = By.id("id_gender1");
-    private static final By NAME_INPUT_FIELD = By.id("customer_firstname");
-    private static final By LASTNAME_INPUT_FIELD = By.id("customer_lastname");
-    private static final By PASS_INPUT_FIELD = By.id("passwd");
-    private static final By DAYS_CHECK_BOX = By.id("days");
-    private static final By MONTHS_CHECK_BOX = By.id("months");
-    private static final By YEARS_CHECK_BOX = By.id("years");
-    private static final By SUBMIT_ACCOUNT_BUTTON = By.id("submitAccount");
 
     // here should be another credentials cuz current user is created !!!
     private String userName = PropertiesReader.getProperty("user.name");
@@ -25,11 +21,50 @@ public class CreateNewUserPage extends AbstractPageObject {
     private String month = PropertiesReader.getProperty("user.birthday.month");
     private String year = PropertiesReader.getProperty("user.birthday.year");
 
+    @Name("MR radiobutton")
+    @FindBy(id = "id_gender1")
+    @Timeout(30)
+    private Button mrRadiobutton;
+
+    @Name("Name input field")
+    @FindBy(id = "customer_firstname")
+    @Timeout(30)
+    private TextInput nameInput;
+
+    @Name("Password input field")
+    @FindBy(id = "customer_lastname")
+    @Timeout(30)
+    private TextInput lastnameInput;
+
+    @Name("Lastname input field")
+    @FindBy(id = "passwd")
+    @Timeout(30)
+    private TextInput passInput;
+
+    @Name("Daya check box")
+    @FindBy(id = "days")
+    @Timeout(30)
+    private CheckBox daysCheckBox;
+
+    @Name("Month check box")
+    @FindBy(id = "months")
+    @Timeout(30)
+    private CheckBox monthCheckBox;
+
+    @Name("Years check box")
+    @FindBy(id = "years")
+    @Timeout(30)
+    private CheckBox yearsCheckBox;
+
+    @Name("Submit account button")
+    @FindBy(id = "submitAccount")
+    @Timeout(30)
+    private Button submitAccountButton;
 
     @Step
     public final CreateNewUserPage setSexAsMr() {
 
-        clickTo(MR_RADIOBUTTON);
+        clickTo(mrRadiobutton);
 
         return this;
     }
@@ -37,7 +72,7 @@ public class CreateNewUserPage extends AbstractPageObject {
     @Step
     public final CreateNewUserPage setName() {
 
-        fillInputAs(NAME_INPUT_FIELD, userName);
+        fillInputAs(nameInput, userName);
 
         return this;
     }
@@ -45,7 +80,7 @@ public class CreateNewUserPage extends AbstractPageObject {
     @Step
     public final CreateNewUserPage setLastname() {
 
-        fillInputAs(LASTNAME_INPUT_FIELD, userLastname);
+        fillInputAs(lastnameInput, userLastname);
 
         return this;
     }
@@ -53,7 +88,7 @@ public class CreateNewUserPage extends AbstractPageObject {
     @Step
     public final CreateNewUserPage setPassword() {
 
-        fillInputAs(PASS_INPUT_FIELD, userPass);
+        fillInputAs(passInput, userPass);
 
         return this;
     }
@@ -61,7 +96,7 @@ public class CreateNewUserPage extends AbstractPageObject {
     @Step
     public final CreateNewUserPage setBirthdayDay() {
 
-        fillInputAs(DAYS_CHECK_BOX, day);
+        fillInputAs(daysCheckBox, day);
 
         return this;
     }
@@ -69,7 +104,7 @@ public class CreateNewUserPage extends AbstractPageObject {
     @Step
     public final CreateNewUserPage setBirthdayMonth() {
 
-        fillInputAs(MONTHS_CHECK_BOX, month);
+        fillInputAs(monthCheckBox, month);
 
         return this;
     }
@@ -77,7 +112,7 @@ public class CreateNewUserPage extends AbstractPageObject {
     @Step
     public final CreateNewUserPage setBirthdayYear() {
 
-        fillInputAs(YEARS_CHECK_BOX, year);
+        fillInputAs(yearsCheckBox, year);
 
         return this;
     }
@@ -85,7 +120,7 @@ public class CreateNewUserPage extends AbstractPageObject {
     @Step
     public final UserAccountPage createUser() {
 
-        clickTo(SUBMIT_ACCOUNT_BUTTON);
+        clickTo(submitAccountButton);
 
         return new UserAccountPage();
     }

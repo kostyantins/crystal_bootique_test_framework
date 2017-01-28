@@ -1,23 +1,36 @@
 package pageobjects;
 
 import lombok.Getter;
-import org.openqa.selenium.By;
+import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.allure.annotations.Step;
-
-import static pageobjects.HomePage.LOGO_LINK;
+import ru.yandex.qatools.htmlelements.annotations.Name;
+import ru.yandex.qatools.htmlelements.annotations.Timeout;
+import ru.yandex.qatools.htmlelements.element.HtmlElement;
+import ru.yandex.qatools.htmlelements.element.Link;
 
 @Getter
 public class UserAccountPage extends AbstractPageObject {
 
+    @Name("Log out link")
+    @FindBy(xpath = "(//*[@id='header']//a)[2]")
+    @Timeout(30)
+    private Link logOutLink;
+
     // element to check if user log in or created
-    public static final By USER = By.xpath("//*[@id='header']//nav//a/span");
-    private static final By MY_ADDRESS_LINK = By.xpath("(//*[@id='center_column']//a)[4]");
-    public static final By LOG_OUT_LINK = By.xpath("(//*[@id='header']//a)[2]");
+    @Name("Log out link")
+    @FindBy(xpath = "//*[@id='header']//nav//a/span")
+    @Timeout(30)
+    private HtmlElement user;
+
+    @Name("My address link")
+    @FindBy(xpath = "(//*[@id='center_column']//a)[4]")
+    @Timeout(30)
+    private Link myAddressLink;
 
     @Step
     public final UserAddressesPage openUserAddressesPage() {
 
-        clickTo(MY_ADDRESS_LINK);
+        clickTo(myAddressLink);
 
         return new UserAddressesPage();
     }
@@ -25,7 +38,9 @@ public class UserAccountPage extends AbstractPageObject {
     @Step
     public final HomePage openHomePage() {
 
-        clickTo(LOGO_LINK);
+        final HomePage homePage = new HomePage();
+
+        clickTo(homePage.getLogoLink());
 
         return new HomePage();
     }

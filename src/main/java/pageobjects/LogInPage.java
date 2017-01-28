@@ -1,21 +1,48 @@
 package pageobjects;
 
 import lombok.Getter;
-import org.openqa.selenium.By;
+import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.allure.annotations.Step;
+import ru.yandex.qatools.htmlelements.annotations.Name;
+import ru.yandex.qatools.htmlelements.annotations.Timeout;
+import ru.yandex.qatools.htmlelements.element.Button;
+import ru.yandex.qatools.htmlelements.element.HtmlElement;
+import ru.yandex.qatools.htmlelements.element.TextInput;
 import util.PropertiesReader;
 
 @Getter
 public class LogInPage extends AbstractPageObject {
 
-    private static final By EMAIL_CREATE_INPUT_FIELD = By.id("email_create");
-    private static final By SUBMIT_NEW_CREATION_BUTTON = By.id("SubmitCreate");
-    private static final By EMAIL_INPUT_FIELD = By.id("email");
-    private static final By PASS_INPUT_FIELD = By.id("passwd");
-    private static final By SUBMIT_LOGIN_BUTTON = By.id("SubmitLogin");
+    @Name("Create email input field")
+    @FindBy(id = "email_create")
+    @Timeout(30)
+    private TextInput createEmailInput;
+
+    @Name("Submit new creation button")
+    @FindBy(id = "SubmitCreate")
+    @Timeout(30)
+    private Button submitNewCreationButton;
+
+    @Name("Email input field")
+    @FindBy(id = "email")
+    @Timeout(30)
+    private TextInput emailInput;
+
+    @Name("Password input field")
+    @FindBy(id = "passwd")
+    @Timeout(30)
+    private TextInput passInput;
+
+    @Name("Submit login button")
+    @FindBy(id = "SubmitLogin")
+    @Timeout(30)
+    private Button submitLoginButton;
 
     // page element to check whether user log in or not; // ERROR_LOGIN_ALERT
-    public static final By INVALID_USER = By.xpath("//*[@id='center_column']/div[1]");
+    @Name("Invalid user")
+    @FindBy(xpath = "//*[@id='center_column']/div[1]")
+    @Timeout(30)
+    private HtmlElement invalidUser;
 
     // while creating new user here should be another email cuz current is existed !!!
     private String EmailToCreate = PropertiesReader.getProperty("email.to.create");
@@ -28,7 +55,7 @@ public class LogInPage extends AbstractPageObject {
     @Step
     public final LogInPage setEmailToCreate() {
 
-        fillInputAs(EMAIL_CREATE_INPUT_FIELD, EmailToCreate);
+        fillInputAs(createEmailInput, EmailToCreate);
 
         return this;
     }
@@ -36,7 +63,7 @@ public class LogInPage extends AbstractPageObject {
     @Step
     public final CreateNewUserPage submitEmail() {
 
-        clickTo(SUBMIT_NEW_CREATION_BUTTON);
+        clickTo(submitNewCreationButton);
 
         return new CreateNewUserPage();
     }
@@ -44,7 +71,7 @@ public class LogInPage extends AbstractPageObject {
     @Step
     public final LogInPage setEmail() {
 
-        fillInputAs(EMAIL_INPUT_FIELD, EmailToLogin);
+        fillInputAs(emailInput, EmailToLogin);
 
         return this;
     }
@@ -52,7 +79,7 @@ public class LogInPage extends AbstractPageObject {
     @Step
     public final LogInPage setEmailToAddAddress() {
 
-        fillInputAs(EMAIL_INPUT_FIELD, EmailToAddAddress);
+        fillInputAs(emailInput, EmailToAddAddress);
 
         return this;
     }
@@ -60,7 +87,7 @@ public class LogInPage extends AbstractPageObject {
     @Step
     public final LogInPage setPassword() {
 
-        fillInputAs(PASS_INPUT_FIELD, validPass);
+        fillInputAs(passInput, validPass);
 
         return this;
     }
@@ -68,7 +95,7 @@ public class LogInPage extends AbstractPageObject {
     @Step
     public final UserAccountPage doLogIn() {
 
-        clickTo(SUBMIT_LOGIN_BUTTON);
+        clickTo(submitLoginButton);
 
         return new UserAccountPage();
     }
@@ -76,7 +103,7 @@ public class LogInPage extends AbstractPageObject {
     @Step
     public final LogInPage setInvalidEmail(final String invalidEmail) {
 
-        fillInputAs(EMAIL_INPUT_FIELD, invalidEmail);
+        fillInputAs(emailInput, invalidEmail);
 
         return this;
     }
@@ -84,7 +111,7 @@ public class LogInPage extends AbstractPageObject {
     @Step
     public final LogInPage setInvalidPassword(final String invalidPass) {
 
-        fillInputAs(PASS_INPUT_FIELD, invalidPass);
+        fillInputAs(passInput, invalidPass);
 
         return this;
     }

@@ -1,13 +1,20 @@
 package tests;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import pageobjects.LogInPage;
 import util.DataProvider;
 import util.TestRunner;
 
 import static asserts.WebElementAsserts.assertThat;
-import static pageobjects.LogInPage.INVALID_USER;
 
 public class InvalidUserLogInTest extends TestRunner {
+
+    @BeforeMethod
+    public void initializedPageObject(){
+
+        logInPage = new LogInPage();
+    }
 
     @Test(dataProvider = "testDataLogIn", dataProviderClass = DataProvider.class)
     public void testInvalidUserLogIn(final String invalidEmail, final String invalidPass) {
@@ -18,6 +25,6 @@ public class InvalidUserLogInTest extends TestRunner {
                 .setInvalidPassword(invalidPass)
                 .doLogIn();
 
-        assertThat(INVALID_USER).isNotLogIn();
+        assertThat(logInPage.getInvalidUser()).isNotLogIn();
     }
 }
