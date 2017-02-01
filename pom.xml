@@ -17,9 +17,6 @@
         <selenium-api.version>2.53.1</selenium-api.version>
         <selenium-support.version>2.53.1</selenium-support.version>
         <testng.version>6.9.10</testng.version>
-        <org.apache.poi>3.14</org.apache.poi>
-        <org.apache.poi-ooxml>3.14</org.apache.poi-ooxml>
-        <guice.version>4.1.0</guice.version>
         <lombok.version>1.16.10</lombok.version>
         <suite>smoke</suite>
         <allure-testng-adaptor>1.5.0.RC2</allure-testng-adaptor>
