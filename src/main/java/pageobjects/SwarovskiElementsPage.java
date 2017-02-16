@@ -1,11 +1,19 @@
 package pageobjects;
 
 import lombok.Getter;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.allure.annotations.Step;
 import ru.yandex.qatools.htmlelements.annotations.Name;
 import ru.yandex.qatools.htmlelements.annotations.Timeout;
 import ru.yandex.qatools.htmlelements.element.Link;
+import ru.yandex.qatools.htmlelements.element.Select;
+import ru.yandex.qatools.htmlelements.element.Table;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static util.Sort.isListElementsEquals;
 
 @Getter
 public class SwarovskiElementsPage extends AbstractPageObject {
@@ -25,6 +33,17 @@ public class SwarovskiElementsPage extends AbstractPageObject {
     @Timeout(30)
     private Link itemListLink;
 
+    // element to check quantity of page items
+    @Name("Table elements on page")
+    @FindBy(xpath = "//*[@id='center_column']//ul[@class='product_list row list']/li")
+    @Timeout(30)
+    public static List<WebElement> elementsTable;
+
+    @Name("Show items dropdown")
+    @FindBy(id = "nb_item")
+    @Timeout(30)
+    private Select showItemDropdown;
+
     @Step
     public final SwarovskiElementsPage chooseItem() {
 
@@ -41,5 +60,22 @@ public class SwarovskiElementsPage extends AbstractPageObject {
         clickTo(makeOrderLink);
 
         return new BasketStatePage();
+    }
+
+    @Step
+    public final SwarovskiElementsPage setItemsLikeList() {
+
+        clickTo(itemListLink);
+
+        return this;
+    }
+
+    @Step
+    public final SwarovskiElementsPage setItemsOnPage(final String itemQuantity) {
+
+        showItemDropdown
+                .selectByValue(itemQuantity);
+
+        return this;
     }
 }

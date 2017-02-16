@@ -5,9 +5,9 @@
         <classes>
             <class name="tests.LogoExistTest"/>
             <class name="tests.ValidUserLogInTest"/>
-            <class name="tests.InvalidUserLogInTest"/>
-            <class name="tests.AddUserAddressTest"/>
-            <class name="tests.CreateOrderTest"/>
+            <!--<class name="tests.InvalidUserLogInTest"/>-->
+            <!--<class name="tests.AddUserAddressTest"/>-->
+            <!--<class name="tests.CreateOrderTest"/>-->
         </classes>
     </test>
 </suite>

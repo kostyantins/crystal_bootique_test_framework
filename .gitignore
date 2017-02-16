@@ -41,6 +41,7 @@ oms_test_framework.iml
 target/
 test-output/
 build/
+allure-report/
 
 # JIRA plugin
 atlassian-ide-plugin.xml
