@@ -1,25 +1,32 @@
 package tests;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pageobjects.SwarovskiElementsPage;
 import util.TestRunner;
+
+import java.sql.Time;
 
 import static asserts.CommonAssert.assertThat;
 import static pageobjects.SwarovskiElementsPage.elementsTable;
 import static util.Sort.isListElementsEquals;
 
-public class TwelveItemIsExistTest extends TestRunner {
+public class PageItemsExistTest extends TestRunner {
 
-    @Test
-    public final void testTwelveItemIsExist() {
+    @BeforeMethod
+    public final void initializationPageObject() {
 
         swarovskiElementsPage = new SwarovskiElementsPage();
+    }
+
+    //TODO use DataProvider to test all dropdown functionality at ones
+    @Test
+    public final void testPageItemsExistTest() {
 
         homePage
                 .openSwarovskiElementsPage()
-                .setItemsLikeList()
                 .setItemsOnPage("24");
 
-        assertThat(isListElementsEquals(elementsTable, 24));
+        assertThat(isListElementsEquals(elementsTable, 24)).isTrue();
     }
 }

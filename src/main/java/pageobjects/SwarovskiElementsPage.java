@@ -1,19 +1,21 @@
 package pageobjects;
 
 import lombok.Getter;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.allure.annotations.Step;
 import ru.yandex.qatools.htmlelements.annotations.Name;
 import ru.yandex.qatools.htmlelements.annotations.Timeout;
+import ru.yandex.qatools.htmlelements.element.CheckBox;
 import ru.yandex.qatools.htmlelements.element.Link;
 import ru.yandex.qatools.htmlelements.element.Select;
-import ru.yandex.qatools.htmlelements.element.Table;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import static util.Sort.isListElementsEquals;
+import static util.WebDriverFactory.getDriver;
 
 @Getter
 public class SwarovskiElementsPage extends AbstractPageObject {
@@ -35,14 +37,37 @@ public class SwarovskiElementsPage extends AbstractPageObject {
 
     // element to check quantity of page items
     @Name("Table elements on page")
-    @FindBy(xpath = "//*[@id='center_column']//ul[@class='product_list row list']/li")
+    @FindBy(xpath = "//*[@id='center_column']/ul/li")
     @Timeout(30)
     public static List<WebElement> elementsTable;
 
     @Name("Show items dropdown")
-    @FindBy(id = "nb_item")
+    @FindBy(xpath = "//*[@id='nb_item']")
     @Timeout(30)
     private Select showItemDropdown;
+
+    @Name("Pens check box")
+    @FindBy(id = "layered_category_8")
+    @Timeout(30)
+    public static CheckBox pensCheckBox;
+
+    @Name("Table pages to go")
+    @FindBy(xpath = "//*[@id='pagination_bottom']/ul/li")
+    @Timeout(30)
+    public static List<WebElement> tablePagesToGo;
+
+    @Name("Pagination next link")
+    @FindBy(xpath = "//*[@id='pagination_next']/a")
+    @Timeout(30)
+    private Link paginationNextLink;
+
+    @Name("Pagination back link")
+    @FindBy(xpath = "//*[@id='pagination_previous']/a")
+    @Timeout(30)
+    private Link paginationBackLink;
+
+    public SwarovskiElementsPage() {
+    }
 
     @Step
     public final SwarovskiElementsPage chooseItem() {
@@ -76,6 +101,103 @@ public class SwarovskiElementsPage extends AbstractPageObject {
         showItemDropdown
                 .selectByValue(itemQuantity);
 
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         return this;
+    }
+
+    @Step
+    public final SwarovskiElementsPage lookForNextPage() {
+
+        if (tablePagesToGo.iterator().hasNext()) {
+
+            paginationNextLink.click();
+        }
+
+        return this;
+    }
+
+    @Step
+    public final SwarovskiElementsPage set(final WebElement checkBoxName) {
+
+        if (checkBoxName.isSelected()) {
+            checkBoxName.clear();
+        } else {
+            checkBoxName
+                    .click();
+        }
+        return this;
+    }
+
+    @Step
+    public final List<WebElement> collectElements(final List<WebElement> webElementsList) {
+
+        final List<List<WebElement>> newWebElementsList = new LinkedList<>();
+
+        newWebElementsList.add(webElementsList);
+
+        if (tablePagesToGo.iterator().hasNext()) {
+
+            for (int i = 1; i < tablePagesToGo.size() - 1; i++) {
+
+                paginationNextLink.click();
+
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                newWebElementsList.add(getItems());
+            }
+        }
+
+        final List<WebElement> webElementsListToCheck = new LinkedList<>();
+
+        for (final List<WebElement> elements : newWebElementsList) {
+
+            webElementsListToCheck.addAll(elements);
+        }
+        return webElementsListToCheck;
+    }
+
+    @Step
+    public final List<WebElement> collectElementsS(final List<WebElement> webElementsList) {
+
+        final List<WebElement> newWebElementsList = new LinkedList<>();
+
+        newWebElementsList.addAll(webElementsList);
+
+        if (paginationNextLink.isEnabled()) {
+
+            for (int i = 3; i <= tablePagesToGo.size() - 1; i++) {
+
+                paginationNextLink.click();
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                newWebElementsList.addAll(webElementsList);
+            }
+        } else return newWebElementsList;
+
+        return newWebElementsList;
+    }
+
+    @Step
+    public final List<WebElement> getItems() {
+
+        final List<WebElement> webElementsList;
+
+        webElementsList = getDriver().findElements(By.xpath("//*[@id='center_column']/ul/li"));
+
+        return webElementsList;
     }
 }
