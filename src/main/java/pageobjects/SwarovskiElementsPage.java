@@ -1,7 +1,6 @@
 package pageobjects;
 
 import lombok.Getter;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.yandex.qatools.allure.annotations.Step;
@@ -13,9 +12,6 @@ import ru.yandex.qatools.htmlelements.element.Select;
 
 import java.util.LinkedList;
 import java.util.List;
-
-import static util.Sort.isListElementsEquals;
-import static util.WebDriverFactory.getDriver;
 
 @Getter
 public class SwarovskiElementsPage extends AbstractPageObject {
@@ -133,40 +129,9 @@ public class SwarovskiElementsPage extends AbstractPageObject {
         return this;
     }
 
+    //TODO method needs to be decompose, throw functionality in some util class and here just to call a method
     @Step
     public final List<WebElement> collectElements(final List<WebElement> webElementsList) {
-
-        final List<List<WebElement>> newWebElementsList = new LinkedList<>();
-
-        newWebElementsList.add(webElementsList);
-
-        if (tablePagesToGo.iterator().hasNext()) {
-
-            for (int i = 1; i < tablePagesToGo.size() - 1; i++) {
-
-                paginationNextLink.click();
-
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                newWebElementsList.add(getItems());
-            }
-        }
-
-        final List<WebElement> webElementsListToCheck = new LinkedList<>();
-
-        for (final List<WebElement> elements : newWebElementsList) {
-
-            webElementsListToCheck.addAll(elements);
-        }
-        return webElementsListToCheck;
-    }
-
-    @Step
-    public final List<WebElement> collectElementsS(final List<WebElement> webElementsList) {
 
         final List<WebElement> newWebElementsList = new LinkedList<>();
 
@@ -189,15 +154,5 @@ public class SwarovskiElementsPage extends AbstractPageObject {
         } else return newWebElementsList;
 
         return newWebElementsList;
-    }
-
-    @Step
-    public final List<WebElement> getItems() {
-
-        final List<WebElement> webElementsList;
-
-        webElementsList = getDriver().findElements(By.xpath("//*[@id='center_column']/ul/li"));
-
-        return webElementsList;
     }
 }

@@ -26,6 +26,6 @@ public class CheckQuantityOfPensTest extends TestRunner {
                 .openSwarovskiElementsPage()
                 .set(pensCheckBox);
 
-        assertThat(isListElementsEquals(swarovskiElementsPage.collectElementsS(elementsTable), 25)).isTrue();
+        assertThat(isListElementsEquals(swarovskiElementsPage.collectElements(elementsTable), 25)).isTrue();
     }
 }
